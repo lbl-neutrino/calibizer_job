@@ -13,8 +13,8 @@ conda activate module0_flow_env
 
 pip install scipy scikit-image scikit-learn pyyaml pyyaml-include tqdm
 
-git clone https://github.com/peter-madigan/module0_flow.git -b module2/add-module2-yamls
-
 git clone https://github.com/peter-madigan/h5flow.git
-cd h5flow
-python setup.py install
+( cd h5flow && python setup.py install )
+
+git clone https://github.com/peter-madigan/module0_flow.git -b module2/add-module2-yamls
+( cd module0_flow && python setup.py install )

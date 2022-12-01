@@ -18,6 +18,8 @@ source load.sh
 * Invoking h5flow
 
 #+begin_src bash
+cd module0_flow
+
 srun --ntasks-per-node=256 \
     h5flow -c module2_yamls/workflows/charge/charge_event_building.yaml \
     module2_yamls/workflows/charge/charge_event_reconstruction.yaml \
