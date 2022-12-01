@@ -1,3 +1,20 @@
+* Installing
+
+Run =install.sh=, which will create the =module0_flow_env= conda environment in
+=~/.conda/envs= and pull necessary code from GitHub into this directory.
+
+* Grabbing a node
+
+#+begin_src bash
+salloc -q interactive -A dune -C cpu -t 240
+#+end_src
+
+* Environment setup
+
+#+begin_src bash
+source load.sh
+#+end_src
+
 * Invoking h5flow
 
 #+begin_src bash
