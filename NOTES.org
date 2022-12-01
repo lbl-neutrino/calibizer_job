@@ -1,0 +1,5 @@
+* Invoking h5flow
+
+#+begin_src bash
+srun --ntasks-per-node=256 h5flow -c module2_yamls/workflows/charge/charge_event_building.yaml module2_yamls/workflows/charge/charge_event_reconstruction.yaml module2_yamls/workflows/gen_all_resources.yaml -i /global/cfs/cdirs/dune/www/data/Module2/TPC12_run2/selftrigger-run2-packet-2022_11_29_22_31_CET.h5 -o ~/dunescratch/data/selftrigger-run2-reco-2022_11_29_22_31_CET.h5
+#+end_src
