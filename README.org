@@ -1,12 +1,33 @@
 * Installing
 
-Run =install.sh=, which will create the =module0_flow_env= conda environment in
-=~/.conda/envs= and pull necessary code from GitHub into this directory.
+Run =install.sh=, which will set up the =module0_flow_env= conda environment in
+=~/.conda/envs= and download =module0_flow= here.
+
+If necessary, edit =module0_flow/module2_yamls/reco/charge/HitBuilder.yaml= and
+change the =pedestal_file= to the right, erm, pedestal file.
+
+If you ran =install.sh= on Perlmutter, the conda env won't work on Cori, and
+vice versa. So if you're using more than one cluster, rename =module0_flow_env=
+in =install.sh= and =load.sh=, as necessary.
 
 * Grabbing a node
 
+Perlmutter:
+
 #+begin_src bash
-salloc -q interactive -A dune -C cpu -t 240
+salloc -q interactive -A dune -C cpu -t 240 --ntasks-per-node=256
+#+end_src
+
+Cori Haswell:
+
+#+begin_src bash
+salloc -q interactive -A dune -C haswell -t 240 --ntasks-per-node=64
+#+end_src
+
+Cori KNL:
+
+#+begin_src bash
+salloc -q interactive -A dune -C knl -t 240 --ntasks-per-node=272
 #+end_src
 
 * Environment setup
@@ -15,7 +36,18 @@ salloc -q interactive -A dune -C cpu -t 240
 source load.sh
 #+end_src
 
-* Invoking h5flow
+* Launching a worker interactively
+
+From a compute node provided by =salloc=:
+
+#+begin_src bash
+./calibizer_worker.py /path/to/input.txt
+#+end_src
+
+where =input.txt= contains a list of packet files to process. The output
+directory is configured at the top of =calibizer_worker.py=.
+
+* Manually invoking h5flow
 
 #+begin_src bash
 cd module0_flow

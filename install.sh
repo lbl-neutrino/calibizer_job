@@ -13,8 +13,10 @@ conda activate module0_flow_env
 
 pip install scipy scikit-image scikit-learn pyyaml pyyaml-include tqdm
 
-git clone https://github.com/peter-madigan/h5flow.git
-( cd h5flow && python setup.py install )
+pip install git+https://github.com/peter-madigan/h5flow.git#egg=h5flow
 
 git clone https://github.com/peter-madigan/module0_flow.git -b module2/add-module2-yamls
-( cd module0_flow && python setup.py install )
+# ( cd module0_flow && python setup.py install )
+export PYTHONPATH=$PWD/module0_flow:$PYTHONPATH
+
+pip install git+https://github.com/mjkramer/zeroworker.git#egg=zeroworker

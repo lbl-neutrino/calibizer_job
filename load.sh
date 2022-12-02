@@ -6,3 +6,4 @@ module load python
 module load cray-hdf5-parallel
 
 conda activate module0_flow_env
+export PYTHONPATH=$PWD/module0_flow:$PYTHONPATH
