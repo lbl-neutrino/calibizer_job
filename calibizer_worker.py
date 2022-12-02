@@ -14,12 +14,13 @@ INDIR = f'{BASEDIR}/packetized'
 OUTDIR = f'{BASEDIR}/charge_reco/v1'
 
 
-def get_outpath_(path, subdir: str) -> Path:
+def get_outpath_(path, outdir: str) -> Path:
     relpath = Path(path).relative_to(INDIR)
     assert relpath.name.find('-packet-') != -1, \
         '"{path}" does\'t have "-packet-" in its name, are you sure it\'s a packet file?'
-    out_relpath = relpath.parent.joinpath(relpath.name.replace('-packet-', '-reco-'))
-    return Path(BASEDIR).joinpath(subdir, out_relpath)
+    outname = relpath.name.replace('-packet-', '-reco-')
+    out_relpath = relpath.parent.joinpath(outname)
+    return Path(BASEDIR).joinpath(outdir, out_relpath)
 
 
 def get_outpath(path) -> Path:

@@ -36,6 +36,8 @@ salloc -q interactive -A dune -C knl -t 240 --ntasks-per-node=272
 source load.sh
 #+end_src
 
+Not necessary if you're just submitting batch jobs.
+
 * Launching a worker interactively
 
 From a compute node provided by =salloc=:
@@ -46,6 +48,27 @@ From a compute node provided by =salloc=:
 
 where =input.txt= contains a list of packet files to process. The output
 directory is configured at the top of =calibizer_worker.py=.
+
+* Submitting batch jobs
+
+#+begin_src bash
+./submit_calibizer.sh /path/to/input.txt [extra sbatch args...]
+#+end_src
+
+This calls =sbatch= to submit =calibizer_job.sh=. The latter has some
+Perlmutter-specific =SBATCH= directives, so if running on Cori, you will want to
+override them when calling =submit_calibizer.sh=.
+
+Each individual job processes one file at a time, with the workload spread over
+all available cores using MPI. On Cori, you can allocate multiple nodes to a job
+using the =-N= option to =sbatch=. However, on Perlmutter, doing so will cause
+the job will crash somewhere in h5py or MPICH -- this needs to be investigated!
+For now, stick with single-node jobs on Perlmutter.
+
+To process multiple files in parallel, use a job array, e.g. by passing the
+=sbatch= option =--array=1-5=.
+
+Logs will go in =$SCRATCH/logs.calibizer=.
 
 * Manually invoking h5flow
 
