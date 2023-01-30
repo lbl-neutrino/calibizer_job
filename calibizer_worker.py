@@ -31,14 +31,14 @@ def get_tmppath(path) -> Path:
     return get_outpath_(path, OUTDIR+'.tmp')
 
 
-def process(path):
+def process(path, config):
     tmppath = get_tmppath(path)
     tmppath.parent.mkdir(parents=True, exist_ok=True)
     tmppath.unlink(missing_ok=True) # don't want to append!
 
     print(f'PROCESSING {path}')
 
-    cmd = f'time ./run_module0_flow.sh {path} {tmppath}'
+    cmd = f'time ./run_module0_flow-{config}.sh {path} {tmppath}'
     retcode = call(cmd, shell=True)
 
     if retcode == 0:
@@ -55,6 +55,7 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument('infile')
+    ap.add_argument('-c', '--config', default='module3')
     args = ap.parse_args()
 
     reader = LockfileListReader(args.infile)
@@ -62,7 +63,7 @@ def main():
 
     with logger:
         for path in reader:
-            retcode = process(path)
+            retcode = process(path, args.config)
             logger.log(f'{path} {retcode}')
 
 
