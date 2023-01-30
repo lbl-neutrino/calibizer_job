@@ -75,7 +75,9 @@ To process multiple files in parallel, use a job array, e.g. by passing the
 Logs will go in `$SCRATCH/logs.calibizer`.
 
 
-# Manually invoking h5flow
+# Examples: Manually invoking h5flow
+
+## Module 2
 
 ``` bash
 cd module0_flow
@@ -87,3 +89,20 @@ srun --ntasks-per-node=256 \
     -i /global/cfs/cdirs/dune/www/data/Module2/TPC12_run2/selftrigger-run2-packet-2022_11_29_22_31_CET.h5 \
     -o ~/dunescratch/data/selftrigger-run2-reco-2022_11_29_22_31_CET.h5
 ```
+
+## Module 3
+
+``` bash
+srun --ntasks-per-node=256 \
+    python3 -m h5flow -c module3_yamls/workflows/charge/charge_event_building.yaml \
+    module3_yamls/workflows/charge/charge_event_reconstruction.yaml \
+    module3_yamls/workflows/combined/combined_reconstruction.yaml \
+    -i /some/packet.h5 \
+    -o /some/reco.h5
+```
+
+In the event of trouble, try omitting the `combined_reconstruction.yaml`. In the
+event of further trouble, try creating
+`module3_yamls/workflows/gen_all_resources.yaml`, based on
+`module2_yamls/workflows/gen_all_resources.yaml`, with the module2-specific
+paths replaced with their module3-specific equivalents.
