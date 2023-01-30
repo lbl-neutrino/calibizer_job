@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 from subprocess import call
 import sys
+import time
 
 from zeroworker import LockfileListReader, LockfileListWriter
 # from zeroworker import ZmqListReader, ZmqListWriter
@@ -56,15 +57,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('infile')
     ap.add_argument('-c', '--config', default='module3')
+    ap.add_argument('--immortal', action='store_true')
     args = ap.parse_args()
 
     reader = LockfileListReader(args.infile)
     logger = LockfileListWriter(args.infile+'.done')
 
     with logger:
-        for path in reader:
-            retcode = process(path, args.config)
-            logger.log(f'{path} {retcode}')
+        while True:
+            try:
+                path = next(reader)
+                retcode = process(path, args.config)
+                logger.log(f'{path} {retcode}')
+            except StopIteration:
+                if args.immortal:
+                    time.sleep(60)
+                else:
+                    break
 
 
 if __name__ == '__main__':

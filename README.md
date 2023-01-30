@@ -52,6 +52,19 @@ From a compute node provided by `salloc`:
 where `input.txt` contains a list of packet files to process. The output
 directory is configured at the top of `calibizer_worker.py`.
 
+# Continuous running
+
+SSH into Cori or Perlmutter, start a `screen` session (noting which node you are
+logged into), and start up the `watch_folder.py` script in the background:
+
+``` bash
+./watch_folder.py -i /directory/to/monitor -o /path/to/input.txt &
+```
+
+This will write the paths of all h5 files within `/directory/to/monitor` to
+`input.txt`, and will update `input.txt` as new files. This `input.txt` can then
+be passed to `calibizer_worker.py`, which should be given the `--immortal` flag
+in order to continue polling the `input.txt` for new files to process.
 
 # Submitting batch jobs
 
