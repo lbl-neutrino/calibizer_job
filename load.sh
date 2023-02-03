@@ -4,6 +4,10 @@
 
 module load python
 module load cray-hdf5-parallel
+module swap PrgEnv-${PE_ENV,,} PrgEnv-gnu
+module load fast-mkl-amd
 
 conda activate module0_flow_env
-export PYTHONPATH=$PWD/module0_flow:$PYTHONPATH
+
+# Not necessary on Perlmutter
+# export HDF5_USE_FILE_LOCKING=FALSE
