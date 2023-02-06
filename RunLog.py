@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
+from typing import Optional
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -14,8 +15,8 @@ RANGE_NAME = 'RunLog!G4:L'
 @dataclass
 class RunInfo:
     charge_fname: str
-    light_fname: str = ''
-    drift_field: float = 0.0
+    light_fname: Optional[str]
+    drift_field: Optional[float] # kV/cm
 
 
 class RunLog:
@@ -46,8 +47,8 @@ class RunLog:
             if not charge_fname.endswith('.h5'):
                 continue
 
-            light_fname = ''
-            drift_field = 0.0
+            light_fname = None
+            drift_field = None
 
             if row[0]:
                 drift_field = float(row[0])

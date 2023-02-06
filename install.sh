@@ -45,3 +45,6 @@ pip install git+https://github.com/mjkramer/zeroworker.git
 
 ## for accessing the run log (drift field, light file):
 pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+## used for reading runlist.txt
+pip install pandas
