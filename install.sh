@@ -32,6 +32,8 @@ pip install scipy scikit-image scikit-learn pyyaml pyyaml-include tqdm
 
 pip install git+https://github.com/peter-madigan/h5flow.git
 
+pip install adc64format
+
 # git clone https://github.com/peter-madigan/module0_flow.git -b module2/add-module2-yamls
 # ( cd module0_flow && python setup.py install )
 # export PYTHONPATH=$PWD/module0_flow:$PYTHONPATH
