@@ -1,0 +1,12 @@
+REMEMBER! Run log lists "-binary-" files; our inputs are the "-packet-" files
+
+REMEMBER! Run log drift field is in kV/cm; RunData expects kV/mm
+
+* Runtime tests in perlmutter salloc
+- File to use: self_trigger_adc_calo_target-50-binary-2023_02_03_09_09_CET.h5
+
+** Charge-only, no track reco
+
+** Charge-only, with track reco
+
+** Charge and light, with track reco

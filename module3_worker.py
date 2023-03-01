@@ -7,11 +7,12 @@ from subprocess import call
 
 import pandas as pd
 
-# this one doesn't work atm, adc64_event_generator (L117) doesn't know about ADC 0xcd9414a
-# TESTFILE = '/global/cfs/cdirs/dune/www/data/Module3/packet/ramp_up/self_trigger_adc_calo_target-50-packet-2023_02_01_05_15_CET.h5'
+# 250MB:
+TESTFILE = '/global/cfs/cdirs/dune/www/data/Module3/packet/ramp_up/self_trigger_adc_calo_target-50-packet-2023_02_01_05_15_CET.h5'
 
 # 1.4GB:
-TESTFILE = '/global/cfs/cdirs/dune/www/data/Module3/packet/ramp_up/self_trigger_adc_calo_target-50-packet-2023_02_03_08_48_CET.h5'
+# TESTFILE = '/global/cfs/cdirs/dune/www/data/Module3/packet/ramp_up/self_trigger_adc_calo_target-50-packet-2023_02_03_08_48_CET.h5'
+# We get 129GB out! keep-vwfms?!?
 
 class Module3Worker:
     BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3')
@@ -84,14 +85,9 @@ class Module3Worker:
         cmd = f'time ./run_module0_flow-module3.sh {packet_path} {lightpath} {tmppath}'
         retcode = call(cmd, shell=True)
 
-        # if retcode == 0:
-        #     outpath.parent.mkdir(parents=True, exist_ok=True)
-        #     shutil.move(tmppath, outpath)
-
-        # print(f'charge = {packet_path}')
-        # print(f'light = {lightpath}')
-        # print(f'tmp = {tmppath}')
-        # print(f'out = {outpath}')
+        if retcode == 0:
+            outpath.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(tmppath, outpath)
 
 
 def main():
