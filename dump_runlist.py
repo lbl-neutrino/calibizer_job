@@ -13,7 +13,7 @@ HEADER = 'e_field charge_filename light_filename charge_thresholds light_samples
 
 DEFAULT_LIGHT_SAMPLES = 1024
 
-BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3')
+BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3/run2')
 
 
 @lru_cache
@@ -28,25 +28,25 @@ def read_lightdict() -> dict[str, Path]:
 def format_line(info: RunInfo) -> str:
     e_field = '%.3f' % (info.drift_field * 1000) if info.drift_field else '-'
     charge_filename = info.charge_fname
-    light_filename = info.light_fname if info.light_fname else '-'
+    # light_filename = ','.join(info.light_fnames) if info.light_fnames else '-'
     charge_thresholds = 'medm'
     light_samples = str(DEFAULT_LIGHT_SAMPLES)
 
-    packet_path = BASEDIR.joinpath('packet', 'ramp_up',
+    # packet_path = BASEDIR.joinpath('packet', 'ramp_up',
+    #                                info.charge_fname.replace('-binary-', '-packet-'))
+    packet_path = BASEDIR.joinpath('packet', 'tpc12',
                                    info.charge_fname.replace('-binary-', '-packet-'))
     assert packet_path.exists()
 
-    # HACK to fix typo in run log
-    if light_filename.startswith('cd'):
-        light_filename = '0' + light_filename
+    light_paths = ','.join(str(read_lightdict()[fname]) for fname in info.light_fnames)
 
-    light_path = read_lightdict()[light_filename]
-
-    return f'{e_field} {packet_path} {light_path} {charge_thresholds} {light_samples}'
+    return f'{e_field} {packet_path} {light_paths} {charge_thresholds} {light_samples}'
 
 
 def is_good(info: RunInfo) -> bool:
-    return info.drift_field and info.light_fname and info.light_fname.endswith('.data') \
+    return True
+    return info.drift_field and len(info.light_fnames) >= 1 \
+        and all(fname.endswith('.data') for fname in info.light_fnames) \
         and info.charge_fname.endswith('.h5')
 
 

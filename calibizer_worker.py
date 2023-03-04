@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# This worker now expects to receive an input file in runlist format (without
+# the header).
+
 import argparse
 from pathlib import Path
 import shutil
@@ -32,18 +35,18 @@ def get_tmppath(path) -> Path:
     return get_outpath_(path, OUTDIR+'.tmp')
 
 
-def process(path, config):
-    tmppath = get_tmppath(path)
+def process(chargepath, lightpaths, config):
+    tmppath = get_tmppath(chargepath)
     tmppath.parent.mkdir(parents=True, exist_ok=True)
     tmppath.unlink(missing_ok=True) # don't want to append!
 
-    print(f'PROCESSING {path}')
+    print(f'PROCESSING {chargepath}')
 
-    cmd = f'time ./run_module0_flow-{config}.sh {path} {tmppath}'
+    cmd = f'time ./run_module0_flow-{config}.sh {tmppath} {path} {" ".join(lightpaths)}'
     retcode = call(cmd, shell=True)
 
     if retcode == 0:
-        outpath = get_outpath(path)
+        outpath = get_outpath(chargepath)
         outpath.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(tmppath, outpath)
 

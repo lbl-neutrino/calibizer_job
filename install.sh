@@ -14,9 +14,9 @@ module load fast-mkl-amd
 ## warnings that it "may cause problems".
 # conda create -n module0_flow_env --clone lazy-h5py
 
-conda create -n module0_flow_env --clone lazy-mpi4py
-conda activate module0_flow_env
-pip install --upgrade pip
+conda create -n ndlar_flow_env --clone lazy-mpi4py
+conda activate ndlar_flow_env
+pip install --upgrade pip setuptools wheel
 
 ## See comment above re fast-mkl-amd
 conda install -c defaults --override-channels numpy cython
@@ -28,9 +28,14 @@ HDF5_MPI=ON CC=cc pip install -v --force-reinstall --no-cache-dir --no-binary=h5
 ## The below is the bare minimum we need to add.
 # pip install pyyaml-include tqdm
 
-pip install scipy scikit-image scikit-learn pyyaml pyyaml-include tqdm
+pip install scipy scikit-image scikit-learn pyyaml pyyaml-include tqdm pytest
 
-pip install git+https://github.com/peter-madigan/h5flow.git
+# pip install git+https://github.com/larpix/h5flow.git
+git clone https://github.com/larpix/h5flow.git
+pushd h5flow
+pip install -e .
+popd
+
 
 pip install adc64format
 
@@ -40,8 +45,14 @@ pip install adc64format
 
 # pip install git+https://github.com/mjkramer/module0_flow.git@module3-nersc
 
-git clone https://github.com/mjkramer/module0_flow.git -b module3-nersc
-( cd module0_flow && pip install -e . )
+# git clone https://github.com/mjkramer/module0_flow.git -b module3-nersc
+# ( cd module0_flow && pip install -e . )
+git clone https://github.com/larpix/ndlar_flow.git # -b develop
+# develop branch
+pushd ndlar_flow
+git checkout 0aaa40eea9a0de0d2e9191c12ee4c89e520b1340 # develop branch
+pip install -e .
+popd
 
 pip install git+https://github.com/mjkramer/zeroworker.git
 

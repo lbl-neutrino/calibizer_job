@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-chargefile=$(realpath $1)
-lightfile=$(realpath $2)
-outfile=$(realpath $3)
+outfile=$(realpath $1); shift
+chargefile=$(realpath $1); shift
+lightfiles=$(realpath $@); shift $#
 
 logdir=$SCRATCH/logs.calibizer/$SLURM_JOBID
 mkdir -p "$logdir"
 
-cd module0_flow
+cd ndlar_flow
 
-yamldir=module3_yamls/workflows
+yamldir=yamls/module3_flow/workflows
 
 # srun -o "$logdir"/slurm-%j.%t.out \
 #     python3 -m h5flow -c $yamldir/charge/charge_event_building.yaml \
@@ -25,13 +25,6 @@ yamldir=module3_yamls/workflows
 #     -i $lightfile \
 #     -o $outfile
 
-srun -n 256 \
-    python3 -m h5flow -c \
-    $yamldir/light/light_event_building_adc64.yaml \
-    $yamldir/light/light_event_reconstruction-keep_wvfm.yaml \
-    -i $lightfile \
-    -o $outfile
-
 # srun -n 256 \
 #     python3 -m h5flow -c \
 #     $yamldir/charge/charge_event_building.yaml \
@@ -41,7 +34,24 @@ srun -n 256 \
 #     -i $chargefile \
 #     -o $outfile
 
-srun -n 256 \
+# srun -o "$logdir"/slurm-%j.%t.out -n 256 \
+#     python3 -m h5flow -c \
+#     $yamldir/light/light_event_building_adc64.yaml \
+#     $yamldir/light/light_event_reconstruction-keep_wvfm.yaml \
+#     -i $lightfile \
+#     -o $outfile
+
+for lightfile in $lightfiles; do
+    srun --open-mode=append -o "$logdir"/slurm-%j.%t.out -n 256 \
+        python3 -m h5flow -c \
+        $yamldir/light/light_event_building_adc64.yaml \
+        $yamldir/light/light_event_reconstruction.yaml \
+        -i $lightfile \
+        -o $outfile
+done
+
+
+srun --open-mode=append -o "$logdir"/slurm-%j.%t.out -n 256 \
     python3 -m h5flow -c \
     $yamldir/charge/charge_event_building.yaml \
     $yamldir/charge/charge_event_reconstruction.yaml \
