@@ -69,8 +69,14 @@ class Module3Worker:
 
     @classmethod
     def get_tmppath(cls, packet_path: Path) -> Path:
-        tmpdir = Path(os.getenv('SCRATCH')).joinpath('calibizer')
-        tmpdir.mkdir(exist_ok=True)
+        # UNCOMMENT BELOW to use PSCRATCH
+        # tmpdir = Path(os.getenv('SCRATCH')).joinpath('calibizer')
+
+        # COMMENT BELOW to use PSCRATCH
+        reldir = packet_path.parent.relative_to(cls.BASEDIR.joinpath('packet'))
+        tmpdir = cls.BASEDIR.joinpath('reco.tmp', reldir)
+
+        tmpdir.mkdir(parents=True, exist_ok=True)
         # /pscratch/sd/m/mkramer/self_trigger_adc_calo_target-50-reco-2023_02_01_05_15_CET.h5
         outname = cls.get_outname(packet_path)
         tmppath = tmpdir.joinpath(outname)
@@ -100,6 +106,8 @@ class Module3Worker:
             outpath.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(tmppath, outpath)
 
+        return retcode
+
 
 def test():
     mw = Module3Worker()
@@ -114,6 +122,7 @@ def main():
     ap.add_argument('infile')
     ap.add_argument('-c', '--config', default='module3')
     ap.add_argument('--immortal', action='store_true')
+    ap.add_argument('--singleshot', action='store_true')
     args = ap.parse_args()
 
     reader = LockfileListReader(args.infile)
@@ -127,6 +136,8 @@ def main():
                 path = next(reader)
                 retcode = mw.process(path)
                 logger.log(f'{path} {retcode}')
+                if args.singleshot:
+                    break
             except StopIteration:
                 if args.immortal:
                     time.sleep(60)

@@ -4,4 +4,4 @@
 
 source load.sh
 
-./calibizer_worker.py "$@"
+./module3_worker.py --singleshot "$@"

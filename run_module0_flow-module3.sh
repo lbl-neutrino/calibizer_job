@@ -46,16 +46,16 @@ yamldir=yamls/module3_flow/workflows
 #     -i $lightfile \
 #     -o $outfile
 
-for lightfile in $lightfiles; do
-    srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
-        python3 -m h5flow -c \
-        $yamldir/light/light_event_building_adc64.yaml \
-        $yamldir/light/light_event_reconstruction.yaml \
-        -i $lightfile \
-        -o $outfile
-done
+# for lightfile in $lightfiles; do
+#     srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
+#         python3 -m h5flow -c \
+#         $yamldir/light/light_event_building_adc64.yaml \
+#         $yamldir/light/light_event_reconstruction.yaml \
+#         -i $lightfile \
+#         -o $outfile
+# done
 
-cp $outfile ${outfile%.h5}.bak.h5
+# cp $outfile ${outfile%.h5}.bak.h5
 
 # srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
 #     python3 -m h5flow -c \
@@ -69,31 +69,21 @@ cp $outfile ${outfile%.h5}.bak.h5
 srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
     python3 -m h5flow -c \
     $yamldir/charge/charge_event_building.yaml \
+    $yamldir/charge/charge_event_reconstruction.yaml \
+    $yamldir/combined/combined_reconstruction.yaml \
     -i $chargefile \
     -o $outfile
 
-cp $outfile $outfile.1.h5
+# cp $outfile ${outfile%.h5}.no_tracklet.h5
 
-srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
-    python3 -m h5flow -c \
-    $yamldir/charge/charge_event_reconstruction.yaml \
-    -i $outfile.1.h5 \
-    -o $outfile
+# srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
+#     python3 -m h5flow -c \
+#     $yamldir/combined/tracklet_reconstruction.yaml \
+#     -i ${outfile%.h5}.no_tracklet.h5 \
+#     -o ${outfile%.h5}.tracklet.h5
 
-cp $outfile $outfile.2.h5
-
-srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
-    python3 -m h5flow -c \
-    $yamldir/charge/charge_light_assoc.yaml \
-    -i $outfile.2.h5 \
-    -o $outfile
-
-cp $outfile $outfile.3.h5
-
-# XXX tracklet reco disabled
-
-srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
-    python3 -m h5flow -c \
-    $yamldir/combined/combined_reconstruction.yaml \
-    -i $outfile.3.h5 \
-    -o $outfile
+# srun --open-mode=append -o "$logdir"/slurm-%j.%t.out --ntasks-per-node $ntasks \
+#     python3 -m h5flow -c \
+#     $yamldir/combined/tracklet_merging.yaml \
+#     -i ${outfile%.h5}.tracklet.h5 \
+#     -o ${outfile%.h5}.tracklet_merged.h5
