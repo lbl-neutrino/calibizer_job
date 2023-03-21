@@ -11,7 +11,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 # Module3 run log
 SPREADSHEET_ID = '19kOYFh3UCpoBRHFm7KZPQs133jJaUSbRYCmbbW-EQ6I'
 # RANGE_NAME = 'RunLog!G4:L'
-RANGE_NAME = 'RunLog!G556:L574'      # run2 w/ HV
+# RANGE_NAME = 'RunLog!G556:L574'      # run2 w/ HV
+RANGE_NAME = 'RunLog!G1312:L1513'      # run3 w/ HV as of 2023-03-16
 
 @dataclass
 class RunInfo:
@@ -41,11 +42,14 @@ class RunLog:
             .execute().get('values', [])
 
         for row in values:
-            if len(row) < 4:
+            if len(row) < 6:
                 continue
 
             charge_fname = row[3]
             if not charge_fname.endswith('.h5'):
+                continue
+
+            if row[1].find('good') == -1:
                 continue
 
             light_fnames = []

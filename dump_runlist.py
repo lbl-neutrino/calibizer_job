@@ -4,8 +4,10 @@
 # Run log spreadsheet: kV/cm
 # And just for extra confusion, RunData.yaml uses kV/mm
 
+from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
+import sys
 
 from RunLog import RunLog, RunInfo
 
@@ -13,12 +15,12 @@ HEADER = 'e_field charge_filename light_filename charge_thresholds light_samples
 
 DEFAULT_LIGHT_SAMPLES = 1024
 
-BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3/run2')
+BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3/run3')
 
 
 @lru_cache
 def read_lightdict() -> dict[str, Path]:
-    result = {}
+    result = defaultdict(lambda: '-')
     lightbase = BASEDIR.joinpath('LRS')
     for path in lightbase.rglob('*.data'):
         result[path.name] = path
@@ -36,11 +38,13 @@ def format_line(info: RunInfo) -> str:
     #                                info.charge_fname.replace('-binary-', '-packet-'))
     packet_path = BASEDIR.joinpath('packet', 'tpc12',
                                    info.charge_fname.replace('-binary-', '-packet-'))
-    assert packet_path.exists()
+    if not packet_path.exists():
+        print('WTF', packet_path, file=sys.stderr)
+        return ''
 
     light_paths = ','.join(str(read_lightdict()[fname]) for fname in info.light_fnames)
 
-    return f'{e_field} {packet_path} {light_paths} {charge_thresholds} {light_samples}'
+    return f'{e_field} {packet_path} {light_paths} {charge_thresholds} {light_samples}\n'
 
 
 def is_good(info: RunInfo) -> bool:
@@ -57,7 +61,7 @@ def main():
 
     for info in RunLog().dict().values():
         if is_good(info):
-            print(format_line(info))
+            print(format_line(info), end='')
 
 
 if __name__ == '__main__':

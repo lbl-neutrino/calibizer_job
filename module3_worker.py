@@ -22,7 +22,7 @@ from zeroworker import LockfileListReader, LockfileListWriter
 TESTFILE = '/global/cfs/cdirs/dune/www/data/Module3/run2/packet/tpc12/tpc_12-packet-2023_02_22_13_26_CET.h5'
 
 class Module3Worker:
-    BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3/run2')
+    BASEDIR = Path('/global/cfs/cdirs/dune/www/data/Module3/run3')
 
     def __init__(self, config='module3', runlist_path='ndlar_flow/runlist.txt'):
         self.config = config
