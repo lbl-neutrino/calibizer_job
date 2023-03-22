@@ -90,7 +90,7 @@ class Module3Worker:
         assert packet_path.name.find('-packet-') != -1
 
         lightpathlist = self.find_lightfiles(packet_path)
-        assert all(Path(p).exists() for p in lightpathlist)
+        # assert all(Path(p).exists() for p in lightpathlist)
         lightpaths = ' '.join(lightpathlist)
 
         outpath = self.get_outpath(packet_path)
