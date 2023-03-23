@@ -28,7 +28,8 @@ def read_lightdict() -> dict[str, Path]:
 
 
 def format_line(info: RunInfo) -> str:
-    e_field = '%.3f' % (info.drift_field * 1000) if info.drift_field else '-'
+    # e_field = '%.3f' % (info.drift_field * 1000) if info.drift_field else '-'
+    e_field = '%.3f' % (info.drift_field * 1000)
     charge_filename = info.charge_fname
     # light_filename = ','.join(info.light_fnames) if info.light_fnames else '-'
     charge_thresholds = 'medm'

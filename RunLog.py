@@ -12,7 +12,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREADSHEET_ID = '19kOYFh3UCpoBRHFm7KZPQs133jJaUSbRYCmbbW-EQ6I'
 # RANGE_NAME = 'RunLog!G4:L'
 # RANGE_NAME = 'RunLog!G556:L574'      # run2 w/ HV
-RANGE_NAME = 'RunLog!G1312:L1513'      # run3 w/ HV as of 2023-03-16
+# RANGE_NAME = 'RunLog!G1312:L1513'      # run3 w/ HV as of 2023-03-16
+RANGE_NAME = 'RunLog!G1241:L1310'      # run3 round 2
 
 @dataclass
 class RunInfo:
@@ -49,14 +50,17 @@ class RunLog:
             if not charge_fname.endswith('.h5'):
                 continue
 
-            if row[1].find('good') == -1:
-                continue
+            # if row[1].find('good') == -1:
+            #     continue
 
             light_fnames = []
             drift_field = None
 
             if row[0]:
-                drift_field = float(row[0])
+                try:
+                    drift_field = float(row[0])
+                except:
+                    drift_field = 0.5
             else:               # HACK
                 drift_field = 0.5
 
