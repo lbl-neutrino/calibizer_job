@@ -1,0 +1,11 @@
+e_field charge_filename light_filename charge_thresholds light_samples
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_08_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_040830.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_10_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_041034.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_12_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_041237.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_14_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_041441.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_16_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_041644.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_22_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_042255.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_24_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_042458.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_26_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_042702.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_29_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_042905.data medm 1024
+500.000 /global/cfs/cdirs/dune/www/data/Module3/run3/packet/tpc12/tpc12_low_light_thresh-packet-2023_03_17_04_31_CET.h5 /global/cfs/cdirs/dune/www/data/Module3/run3/LRS/cosmic/0cd8d631_20230317_043108.data medm 1024

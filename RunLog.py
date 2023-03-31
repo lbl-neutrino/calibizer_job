@@ -13,7 +13,9 @@ SPREADSHEET_ID = '19kOYFh3UCpoBRHFm7KZPQs133jJaUSbRYCmbbW-EQ6I'
 # RANGE_NAME = 'RunLog!G4:L'
 # RANGE_NAME = 'RunLog!G556:L574'      # run2 w/ HV
 # RANGE_NAME = 'RunLog!G1312:L1513'      # run3 w/ HV as of 2023-03-16
-RANGE_NAME = 'RunLog!G1241:L1310'      # run3 round 2
+# RANGE_NAME = 'RunLog!G1241:L1310'      # run3 round 2
+# RANGE_NAME = 'RunLog!G1241:L1310'      # run3 all the things
+RANGE_NAME = 'RunLog!G1580:L1590'      # run3 all the things
 
 @dataclass
 class RunInfo:
@@ -71,7 +73,7 @@ class RunLog:
                     if light_fname.startswith('cd'):
                         light_fname = '0' + light_filename
                     # LCM, ACL, sum
-                    valid_adcs = ['0cd8d63', '0cd913fa', '0cd9414a']
+                    valid_adcs = ['0cd8d631', '0cd913fa', '0cd9414a']
                     adc = light_fname.split('_')[0]
                     assert adc in valid_adcs
                     # HACK: ADC 0cd9414a gets the sum of the six SiPMs on each
