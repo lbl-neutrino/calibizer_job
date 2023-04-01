@@ -6,10 +6,9 @@ infile=$1; shift
 
 source load_nompi.sh
 
-logdir=$SCRATCH/logs.calibizer/$SLURM_JOBID
+logdir=$SCRATCH/logs.calibizer/$(basename "$(dirname "$infile")")
 mkdir -p "$logdir"
 
-sleep $(( RANDOM % 60 ))
-
-srun -o "$logdir"/slurm-%j.%t.out ./module3_worker.py --singleshot -c module3_nompi "$infile" "$@"
+srun -o "$logdir"/task-%j.%t.out ./module3_worker.py \
+    --randsleep 60 --singleshot -c module3_nompi "$infile" "$@"
 # srun -o "$logdir"/slurm-%j.%t.out ./module3_worker.py -c module3_nompi "$infile" "$@"
