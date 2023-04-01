@@ -3,9 +3,11 @@
 import argparse
 import os
 from pathlib import Path
+import random
 import shutil
 from subprocess import call
 import sys
+import time
 
 import pandas as pd
 
@@ -123,7 +125,11 @@ def main():
     ap.add_argument('-c', '--config', default='module3')
     ap.add_argument('--immortal', action='store_true')
     ap.add_argument('--singleshot', action='store_true')
+    ap.add_argument('--randsleep', type=int)
     args = ap.parse_args()
+
+    if args.randsleep:
+        time.sleep(random.random() * args.randsleep)
 
     reader = LockfileListReader(args.infile)
     logger = LockfileListWriter(args.infile+'.done')
